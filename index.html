@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Gửi Bé Yêu</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    background:#000;
+    font-family:'Quicksand', sans-serif;
+}
+
+/* ===== ẢNH ===== */
+.flying-img{
+    position:absolute;
+    width:180px;
+    height:230px;
+    object-fit:cover;
+    border-radius:20px;
+    border:3px solid rgba(255,182,193,.6);
+    box-shadow:0 0 25px rgba(255,20,147,.5);
+    animation: imgFloat linear forwards;
+}
+
+@keyframes imgFloat{
+    from{transform:translateY(110vh) scale(.9);opacity:0;}
+    15%{opacity:1;}
+    to{transform:translateY(-30vh) scale(1.05);opacity:0;}
+}
+
+/* ===== CHỮ ===== */
+.text-fall{
+    position:absolute;
+    font-family:'Dancing Script', cursive;
+    font-size:2rem;
+    color:#ffb6c1;
+    text-shadow:0 0 15px #ff1493;
+    white-space:nowrap;
+    animation: textFall linear forwards;
+}
+
+@keyframes textFall{
+    from{transform:translateY(-20vh);opacity:0;}
+    20%{opacity:1;}
+    to{transform:translateY(120vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<script>
+/* ===== ẢNH (4–5 tấm) ===== */
+const images = [
+    "https://via.placeholder.com/250x320",
+    "https://via.placeholder.com/260x330",
+    "https://via.placeholder.com/240x310",
+    "https://via.placeholder.com/255x325",
+    "https://via.placeholder.com/245x315"
+];
+
+/* ===== CHỮ ===== */
+const texts = [
+    "Yêu em nhất ❤️",
+    "Công chúa của anh",
+    "Mãi bên nhau nhé",
+    "Thương em rất nhiều",
+    "Only you",
+    "Cảm ơn em đã đến",
+    "Luôn ở bên anh nhé",
+    "Chúc mừng sinh nhật",
+    "Nhớ em nhiều lắm",
+    "My love ❤️"
+];
+
+let imgIndex = 0;
+
+/* ===== TẠO ẢNH – CHẬM ===== */
+function createImage(){
+    if(imgIndex >= images.length) return;
+
+    const img = document.createElement("img");
+    img.className = "flying-img";
+    img.src = images[imgIndex++];
+    img.style.left = Math.random()*70 + "vw";
+    img.style.animationDuration = "28s";
+
+    document.body.appendChild(img);
+    setTimeout(()=>img.remove(),28000);
+}
+
+/* ===== TẠO CHỮ – NHIỀU ===== */
+function createText(){
+    for(let i=0;i<2;i++){   // mỗi lần tạo 2 chữ
+        const text = document.createElement("div");
+        text.className = "text-fall";
+        text.innerText = texts[Math.floor(Math.random()*texts.length)];
+        text.style.left = Math.random()*90 + "vw";
+        text.style.animationDuration = "16s";
+
+        document.body.appendChild(text);
+        setTimeout(()=>text.remove(),16000);
+    }
+}
+
+/* ===== GỌI ===== */
+setInterval(createText, 900);    // chữ ra liên tục
+setInterval(createImage, 7000);  // ảnh ít & chậm
+</script>
+
+</body>
+</html>
