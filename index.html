@@ -37,12 +37,15 @@ body{
 .text-fall{
     position:absolute;
     font-family:'Dancing Script', cursive;
-    font-size:4rem;
+    font-size:3.8rem;
     color:#ffb6c1;
     text-shadow:0 0 15px #ff1493;
     white-space:nowrap;
     animation: textFall linear forwards;
     z-index:2;
+
+    /* 👉 CĂN LỀ TRÁI */
+    text-align:left;
 }
 
 @keyframes textFall{
@@ -66,45 +69,20 @@ const images = [
 
 /* ===== CHỮ ===== */
 const texts = [
-    "Chúc mừng sinh nhật nha 🎂 ",
-    "Mong là hôm nay bạn sẽ có thật nhiều niềm vui và cười thật nhiều 😊",
-    "Chúc bạn luôn gặp những điều tốt đẹp như chính bạn vậy đó ✨",
-    "Chúc bạn tuổi mới luôn khỏe mạnh và làm được những điều mình thích 🎉",
+    "Chúc mừng sinh nhật nha 🎂 Mong là hôm nay bạn sẽ có thật nhiều niềm vui và cười thật nhiều 😊",
+    "Sinh nhật vui vẻ nhé! Chúc bạn luôn gặp những điều tốt đẹp như chính bạn vậy đó ✨",
+    "Happy Birthday! Chúc bạn tuổi mới luôn khỏe mạnh và làm được những điều mình thích 🎉",
     "Sinh nhật vui vẻ nha 🎂",
-    "Chúc bạn một ngày thật trọn vẹn 💕",
-    "Mong là bạn sẽ luôn vui 😊",
-    "Chúc bạn tuổi mới vẫn đáng yêu như vậy nha (hoặc là hơn 😌)"
+    "Happy Birthday 🎉 Chúc bạn một ngày thật trọn vẹn 💕",
+    "Chúc mừng sinh nhật! Mong là bạn sẽ luôn vui 😊",
+    "Happy Birthday 🎉 Chúc bạn tuổi mới vẫn đáng yêu như vậy nha (hoặc là hơn 😌)"
 ];
 
 let imgIndex = 0;
 
-/* ===== CHỐNG CHỮ ĐÈ NHAU ===== */
-let usedTextPositions = [];
-
-function getNonOverlappingLeft(){
-    let left;
-    let safe = false;
-
-    while(!safe){
-        left = Math.random() * 80; // 0–80vw
-        safe = true;
-
-        for(let pos of usedTextPositions){
-            if(Math.abs(pos - left) < 18){ // cách nhau tối thiểu
-                safe = false;
-                break;
-            }
-        }
-    }
-
-    usedTextPositions.push(left);
-
-    setTimeout(()=>{
-        usedTextPositions.shift();
-    },22000);
-
-    return left;
-}
+/* ===== LÀN CHỮ (KHÔNG ĐÈ) ===== */
+const textLanes = [5, 25, 45, 65]; // căn trái theo cột
+let laneIndex = 0;
 
 /* ===== TẠO CHỮ ===== */
 function createText(){
@@ -112,11 +90,13 @@ function createText(){
     text.className = "text-fall";
     text.innerText = texts[Math.floor(Math.random()*texts.length)];
 
-    text.style.left = getNonOverlappingLeft() + "vw";
-    text.style.animationDuration = "22s";
+    text.style.left = textLanes[laneIndex] + "vw";
+    text.style.animationDuration = "20s";
+
+    laneIndex = (laneIndex + 1) % textLanes.length;
 
     document.body.appendChild(text);
-    setTimeout(()=>text.remove(),22000);
+    setTimeout(()=>text.remove(),20000);
 }
 
 /* ===== TẠO ẢNH ===== */
@@ -134,10 +114,9 @@ function createImage(){
 }
 
 /* ===== GỌI ===== */
-setInterval(createText, 1800);   // chữ chậm, không đè
+setInterval(createText, 1500);   // chữ chậm – không đè
 setInterval(createImage, 3500); // ảnh nhanh hơn
 </script>
 
 </body>
 </html>
-
