@@ -24,6 +24,7 @@ body{
     border:3px solid rgba(255,182,193,.6);
     box-shadow:0 0 25px rgba(255,20,147,.5);
     animation: imgFloat linear forwards;
+    z-index:1;
 }
 
 @keyframes imgFloat{
@@ -41,6 +42,7 @@ body{
     text-shadow:0 0 15px #ff1493;
     white-space:nowrap;
     animation: textFall linear forwards;
+    z-index:2;
 }
 
 @keyframes textFall{
@@ -54,79 +56,86 @@ body{
 <body>
 
 <script>
-/* ===== ẢNH (4–5 tấm) ===== */
+/* ===== ẢNH ===== */
 const images = [
-    "love2.jpg",
-   "love1.jpg",
-   "cham1.jpg",
-  "cham2.jpg",
-    "cham3.jpg",
-   "cham4.jpg",
-    "cham5.jpg",
-    "cham6.jpg",
-    "cham7.jpg",
-    "cham8.jpg",
-    "cham9.jpg",
-    "cham10.jpg"
- 
-    
+    "love2.jpg","love1.jpg",
+    "cham1.jpg","cham2.jpg","cham3.jpg","cham4.jpg",
+    "cham5.jpg","cham6.jpg","cham7.jpg","cham8.jpg",
+    "cham9.jpg","cham10.jpg"
 ];
 
 /* ===== CHỮ ===== */
 const texts = [
     "Chúc mừng sinh nhật nha 🎂 Mong là hôm nay bạn sẽ có thật nhiều niềm vui và cười thật nhiều 😊",
-    "Sinh nhật vui vẻ nhé! Chúc bạn luôn gặp những điều tốt đẹp như chính bạn vậy đó",
-    "Happy Birthday! Chúc bạn tuổi mới luôn khỏe mạnh và làm được những điều mình thích 🎉",
     "Sinh nhật vui vẻ nhé! Chúc bạn luôn gặp những điều tốt đẹp như chính bạn vậy đó ✨",
+    "Happy Birthday! Chúc bạn tuổi mới luôn khỏe mạnh và làm được những điều mình thích 🎉",
     "Sinh nhật vui vẻ nha 🎂",
     "Happy Birthday 🎉 Chúc bạn một ngày thật trọn vẹn 💕",
     "Chúc mừng sinh nhật! Mong là bạn sẽ luôn vui 😊",
-    "Happy Birthday! Chúc bạn tuổi mới luôn khỏe mạnh và làm được những điều mình thích 🎉",
-    "Happy Birthday 🎉 Chúc bạn tuổi mới vẫn đáng yêu như vậy nha (hoặc là hơn 😌",
-    "Sinh nhật vui vẻ nha 🎂"
+    "Happy Birthday 🎉 Chúc bạn tuổi mới vẫn đáng yêu như vậy nha (hoặc là hơn 😌)"
 ];
 
 let imgIndex = 0;
 
-/* ===== TẠO ẢNH – CHẬM ===== */
+/* ===== CHỐNG CHỮ ĐÈ NHAU ===== */
+let usedTextPositions = [];
+
+function getNonOverlappingLeft(){
+    let left;
+    let safe = false;
+
+    while(!safe){
+        left = Math.random() * 80; // 0–80vw
+        safe = true;
+
+        for(let pos of usedTextPositions){
+            if(Math.abs(pos - left) < 18){ // cách nhau tối thiểu
+                safe = false;
+                break;
+            }
+        }
+    }
+
+    usedTextPositions.push(left);
+
+    setTimeout(()=>{
+        usedTextPositions.shift();
+    },22000);
+
+    return left;
+}
+
+/* ===== TẠO CHỮ ===== */
+function createText(){
+    const text = document.createElement("div");
+    text.className = "text-fall";
+    text.innerText = texts[Math.floor(Math.random()*texts.length)];
+
+    text.style.left = getNonOverlappingLeft() + "vw";
+    text.style.animationDuration = "22s";
+
+    document.body.appendChild(text);
+    setTimeout(()=>text.remove(),22000);
+}
+
+/* ===== TẠO ẢNH ===== */
 function createImage(){
     if(imgIndex >= images.length) return;
 
     const img = document.createElement("img");
     img.className = "flying-img";
     img.src = images[imgIndex++];
-    img.style.left = Math.random()*70 + "vw";
-    img.style.animationDuration = "28s";
+    img.style.left = Math.random()*60 + 10 + "vw";
+    img.style.animationDuration = "18s";
 
     document.body.appendChild(img);
-    setTimeout(()=>img.remove(),28000);
-}
-
-/* ===== TẠO CHỮ – NHIỀU ===== */
-function createText(){
-    for(let i=0;i<2;i++){   // mỗi lần tạo 2 chữ
-        const text = document.createElement("div");
-        text.className = "text-fall";
-        text.innerText = texts[Math.floor(Math.random()*texts.length)];
-        text.style.left = Math.random()*90 + "vw";
-        text.style.animationDuration = "16s";
-
-        document.body.appendChild(text);
-        setTimeout(()=>text.remove(),16000);
-    }
+    setTimeout(()=>img.remove(),18000);
 }
 
 /* ===== GỌI ===== */
-setInterval(createText, 1000);    // chữ ra liên tục
-setInterval(createImage, 5000);  // ảnh ít & chậm
+setInterval(createText, 1800);   // chữ chậm, không đè
+setInterval(createImage, 3500); // ảnh nhanh hơn
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
