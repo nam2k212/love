@@ -73,28 +73,37 @@
 <script>
     /* ===== DANH SÁCH ẢNH ===== */
     const images = [
-        "love2.jpg", "love1.jpg",
-        "cham1.jpg", "cham2.jpg", "cham3.jpg",
-        "cham4.jpg", "cham5.jpg", "cham6.jpg",
-        "cham7.jpg", "cham8.jpg", "cham9.jpg", "cham10.jpg"
+        "love2.jpg",
+        "love1.jpg",
+        "cham1.jpg",
+        "cham2.jpg",
+        "cham3.jpg",
+        "cham4.jpg",
+        "cham5.jpg",
+        "cham6.jpg",
+        "cham7.jpg",
+        "cham8.jpg",
+        "cham9.jpg",
+        "cham10.jpg"
     ];
 
     /* ===== DANH SÁCH CHỮ ===== */
     const texts = [
-        "Chúc mừng sinh nhật nha 🎂 Mong là hôm nay bạn sẽ có thật nhiều niềm vui 😊",
-        "Sinh nhật vui vẻ nhé! Chúc bạn luôn gặp điều tốt đẹp ✨",
-        "Happy Birthday 🎉 Chúc bạn luôn khỏe mạnh",
-        "Mong là bạn sẽ luôn cười nhiều như hôm nay 😊",
-        "Tuổi mới thật nhiều may mắn nha 💕",
+        "Chúc mừng sinh nhật nha 🎂 Mong là hôm nay bạn sẽ có thật nhiều niềm vui và cười thật nhiều 😊",
+        "Sinh nhật vui vẻ nhé! Chúc bạn luôn gặp những điều tốt đẹp như chính bạn vậy đó",
+        "Happy Birthday! Chúc bạn tuổi mới luôn khỏe mạnh và làm được những điều mình thích 🎉",
+        "Sinh nhật vui vẻ nhé! Chúc bạn luôn gặp những điều tốt đẹp như chính bạn vậy đó ✨",
         "Sinh nhật vui vẻ nha 🎂",
-        "Happy Birthday 🎉 Một ngày thật trọn vẹn nhé",
+        "Happy Birthday 🎉 Chúc bạn một ngày thật trọn vẹn 💕",
+        "Chúc mừng sinh nhật! Mong là bạn sẽ luôn vui 😊",
+        "Happy Birthday! Chúc bạn tuổi mới luôn khỏe mạnh và làm được những điều mình thích 🎉",
+        "Happy Birthday 🎉 Chúc bạn tuổi mới vẫn đáng yêu như vậy nha (hoặc là hơn 😌)",
+        "Sinh nhật vui vẻ nha 🎂"
     ];
 
     let imgIndex = 0;
-    let textRow = 0;               // đếm dòng chữ
-    const lineHeight = 80;         // khoảng cách giữa các dòng
 
-    /* ===== TẠO ẢNH ===== */
+    /* ===== TẠO ẢNH – CHẬM ===== */
     function createImage() {
         if (imgIndex >= images.length) return;
 
@@ -105,33 +114,27 @@
         img.style.animationDuration = "28s";
 
         document.body.appendChild(img);
+
         setTimeout(() => img.remove(), 28000);
     }
 
-    /* ===== TẠO CHỮ – KHÔNG ĐÈ NHAU ===== */
+    /* ===== TẠO CHỮ – NHIỀU ===== */
     function createText() {
-        const text = document.createElement("div");
-        text.className = "text-fall";
-        text.innerText = texts[Math.floor(Math.random() * texts.length)];
+        for (let i = 0; i < 2; i++) {
+            const text = document.createElement("div");
+            text.className = "text-fall";
+            text.innerText = texts[Math.floor(Math.random() * texts.length)];
+            text.style.left = Math.random() * 90 + "vw";
+            text.style.animationDuration = "16s";
 
-        text.style.left = "40px";               // căn lề trái
-        text.style.top = (textRow * lineHeight) + "px";
-        text.style.animationDuration = "16s";
+            document.body.appendChild(text);
 
-        document.body.appendChild(text);
-
-        setTimeout(() => text.remove(), 16000);
-
-        textRow++;
-
-        // Nếu chữ xuống quá màn hình thì reset lên đầu
-        if (textRow * lineHeight > window.innerHeight - 100) {
-            textRow = 0;
+            setTimeout(() => text.remove(), 16000);
         }
     }
 
-    /* ===== CHẠY ===== */
-    setInterval(createText, 1200);   // chữ ra từng dòng
+    /* ===== CHẠY HIỆU ỨNG ===== */
+    setInterval(createText, 1000);   // chữ chạy liên tục
     setInterval(createImage, 5000);  // ảnh bay chậm
 </script>
 
