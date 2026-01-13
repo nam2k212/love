@@ -43,8 +43,6 @@ body{
     white-space:nowrap;
     animation: textFall linear forwards;
     z-index:2;
-
-    /* 👉 CĂN LỀ TRÁI */
     text-align:left;
 }
 
@@ -78,10 +76,8 @@ const texts = [
     "Happy Birthday 🎉 Chúc bạn tuổi mới vẫn đáng yêu như vậy nha (hoặc là hơn 😌)"
 ];
 
-let imgIndex = 0;
-
-/* ===== LÀN CHỮ (KHÔNG ĐÈ) ===== */
-const textLanes = [5, 25, 45, 65]; // căn trái theo cột
+/* ===== LÀN CHỮ ===== */
+const textLanes = [5, 25, 45, 65];
 let laneIndex = 0;
 
 /* ===== TẠO CHỮ ===== */
@@ -91,31 +87,29 @@ function createText(){
     text.innerText = texts[Math.floor(Math.random()*texts.length)];
 
     text.style.left = textLanes[laneIndex] + "vw";
-    text.style.animationDuration = "20s";
+    text.style.animationDuration = "18s";
 
     laneIndex = (laneIndex + 1) % textLanes.length;
 
     document.body.appendChild(text);
-    setTimeout(()=>text.remove(),20000);
+    setTimeout(()=>text.remove(),18000);
 }
 
-/* ===== TẠO ẢNH ===== */
+/* ===== TẠO ẢNH (VÔ HẠN) ===== */
 function createImage(){
-    if(imgIndex >= images.length) return;
-
     const img = document.createElement("img");
     img.className = "flying-img";
-    img.src = images[imgIndex++];
+    img.src = images[Math.floor(Math.random()*images.length)];
     img.style.left = Math.random()*60 + 10 + "vw";
-    img.style.animationDuration = "18s";
+    img.style.animationDuration = "16s";
 
     document.body.appendChild(img);
-    setTimeout(()=>img.remove(),18000);
+    setTimeout(()=>img.remove(),16000);
 }
 
 /* ===== GỌI ===== */
-setInterval(createText, 1500);   // chữ chậm – không đè
-setInterval(createImage, 3500); // ảnh nhanh hơn
+setInterval(createText, 1200);   // chữ đều, không hết
+setInterval(createImage, 2500); // ảnh bay liên tục
 </script>
 
 </body>
